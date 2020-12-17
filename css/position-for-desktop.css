@@ -1,0 +1,113 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CONTAINER */
+.container{
+    left: 50%;
+    transform: translateX(-50%);
+    position: relative;
+    width: 90%;
+}
+
+/* Title */
+
+header{
+    position: relative;
+}
+
+nav{
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+nav ul{
+    margin: 0px 0 0 30px;
+    padding: 0;
+}
+
+nav li{
+    margin: 0px 20px;
+}
+
+nav a{
+    padding: 10px;
+}
+
+h1{
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Matrizes */
+.tabela{
+    min-width: 300px;
+    margin: 20px auto;
+}
+
+/* tabela header */
+.mtx-header label{
+    float: left;
+}
+select{
+    float: right;
+}
+
+/* matriz show */
+.btn-matriz-show button{
+    position: relative;
+}
+.btn-matriz-show button img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
+/* Tabela */
+.tabela{
+    text-align: center;
+}
+.tabela table{
+    margin: auto;
+}
+
+input[type="number"]{
+   text-align: center;
+}
+
+/* resultado e visor */
+
+.calc_tools{
+    text-align: center;
+}
+
+#visor{
+    margin-top: 50px;
+    width: 50%;
+}
+
+#error_box{
+    margin-top: 5px;
+    font-size: 1.2rem;
+}
+
+/* RES */
+.res button{
+    float: left;
+}
+
+/* FOOTER */
+
+footer{
+    text-align: center;
+}
+
+
+
+

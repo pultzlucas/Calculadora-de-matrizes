@@ -1,0 +1,120 @@
+
+/* HEADER */
+
+header{
+    position: relative;
+    width: 100%;
+}
+
+header h1{
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* NAV */
+
+nav{
+    font-size: 0.5rem;
+    width: 100%;
+    text-align: center;
+} 
+
+nav ul{
+    font-size: 0.6rem;
+    margin: 0;
+    padding: 0;
+    
+}
+
+nav li{
+    padding: 0;
+    margin: 0;
+    height: 0;
+}
+
+nav a{
+    font-size: 1rem;
+}
+
+/* CONTAINER MATRIZ */
+
+.container-matriz{
+    text-align: center;
+}
+
+.tabela{
+    width: 90%;
+    margin-top: 10px;
+}
+
+/* MATRIZ TABLE */
+
+.tabela table{
+    margin: auto;
+}
+
+.tabela table input[type="number"]{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+
+/* MATRIZ HEADER */
+.mtx-header label{
+    float: left;
+}
+
+.mtx-header input[type="number"]{
+    width: 35px;
+    height: 25px;
+}
+
+.mtx-header select{
+    float: right;
+}
+
+/* VISOR */
+
+#visor{
+    width: 80%;
+}
+
+/* CALC TOOLS */
+.calc_tools{
+    text-align: center;
+}
+
+/* DIV RES */
+
+.res{
+    width: 90%;
+    margin-bottom: 100px;
+}
+
+.res button{
+    float: left;
+    margin-left: 12px;
+}
+
+/* TEXTAREA */
+
+textarea{
+    width: 90%;
+    height: 200px;
+}
+
+/* FOOTER */
+
+footer{
+    width: 100%;
+    text-align: center;
+}
+
+/* BUTTONS */
+
+.btn_hover{
+    margin-top: 20px;
+}
+

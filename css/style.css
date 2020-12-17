@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+:root{
+    --first-blue: #00416D;
+    --second-blue: #2D7DBC;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Title */
+header{
+    width: 99.9%;
+    height: 100px;
+}
+
+nav{
+   width: 100%;
+   line-height: 40px;
+   background-color: #999;
+   height: 40px;
+}
+
+nav ul{
+    list-style: none;
+}
+
+nav label{
+    color: #eee;
+
+}
+
+nav a{
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+
+nav a:hover{
+    background-color: #888;
+}
+
+
+h1{
+    text-shadow:  5px 3px 5px #ccc;
+    letter-spacing: 2px;
+    margin: 0;
+    text-transform: uppercase;
+    color: var(--first-blue);
+}
+
+/*matriz  header */
+
+.mtx-header{
+    background-color: var(--first-blue);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px #ccc;
+}
+.mtx-header label{
+    font-size: 1.3rem;
+}
+.mtx-header input[type="number"]{
+    width: 40px;
+    height: 25px; 
+    font-size: 1.2rem;
+}
+select{
+    width: 20px;
+}
+select option{
+    color: #fff;
+    background-color: var(--first-blue);
+}
+
+/* matriz show */
+.btn-matriz-show button img{
+    margin: 0;
+    width: 12px;
+    height: 8px;
+}
+
+.btn-matriz-show button{
+    margin-bottom: 5px;
+}
+
+/* Tabela */
+
+table input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;   
+}
+.tabela{
+    width: 60%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+table input[type="number"]{
+    width: 40px;
+    height: 40px; 
+    font-size: 1.2rem;
+    border: 1px solid #000;
+    box-shadow: 5px 3px 5px #ccc;
+}
+
+/* Button matriz show */
+
+.btn-matriz-show button{
+    width: 100%;
+    height: 15px;
+    line-height: 0px;
+    color: black;
+    background-color: white;
+}
+
+/* Visor */
+
+#visor{
+    letter-spacing: 1px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: medium;
+    outline: none;
+}
+
+/* Button geral */
+
+button{
+    color: #fff;
+    background-color: var(--first-blue);    
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    font-size: 0.9rem;
+    box-shadow: 5px 3px 5px #ccc;
+}
+
+.btn_hover:hover{
+    background-color: var(--second-blue);    
+}
+
+/* Inputs geral */
+
+input{
+    outline: none;
+    border-radius: 3px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Error box */
+#error_box{
+    color: red;
+}
+
+/* RESULTADO E VISOR */
+
+#btn_calcular{
+    font-size: 1.2rem;
+    width: 50%;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+/* RESULT */
+.res{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    margin-bottom: 50px;
+}
+
+.res button{
+    padding: 5px;
+    border-radius:unset;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    background-color: #888;
+}
+
+textarea{
+    width: 100%;
+    padding-top: 50px;
+    text-align: center;
+    font-size: 20px;
+}
+
+
+
+/* FOOTER COPYRIGHT */
+footer{
+    padding: 0;
+    width: 100%;
+    height: 50px;
+}
+
+footer p {
+    margin: 0;
+    color: #888;
+    font-size: 1.2rem;
+    font-style: italic;
+    line-height: 30px;
+}
+
+.hide{
+    display: none;
+}

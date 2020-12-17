@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual || Calculadora de Matrizes</title>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/cross_browser.css">
+    <link rel="stylesheet" media="(max-width:700px)" href="./css/manual_style_for_mobile.css">
+    <link rel="stylesheet" media="(min-width:700px)" href="./css/manual_style_for_desktop.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html"><img id="seta" src="./img/seta.png" alt="seta para a esquerda"></a>
+            <h1>Manual</h1>
+            <hr>
+        </header>
+        <div class="topics">
+
+            <div class="calculator-tutorial">
+                <h2>Como usar a Calculadora</h2>
+                <ul id="main-ul">
+                    <li>
+                        <h3>Adicionando matrizes</h3>
+                        
+                            
+                        <p> Para adicionar uma matriz clique no botão <q>Adicionar matriz</q>  no canto superior esquerdo ou aperte 
+                        <q>Alt + Shift + A</q>.</p>
+                    
+                    
+                        <p>Após clicar no botão vai aparecer uma caixa na tela pedindo o nome da matriz. </p>
+                    
+                    
+                        <p>Digite um nome e clique em "Ok".</p>
+                    
+                    
+                        <p>Você pode adicionar quantas matrizes você quiser.</p>
+                           
+                    </li>
+    
+                    <li>
+                        <h3>Configurando as matrizes</h3>
+                        
+                           
+                        <h4>Linhas e Colunas</h4>
+                        
+                            
+                        <p>Entre o nome da matriz e o menu de funções vão estar dois inputs.</p>
+                    
+                    
+                        <p>O primeiro input é a quantidade de linhas</p>
+                    
+                    
+                        <p>O segundo é a quantidade de colunas</p>
+                            
+                        
+                        <p>
+                            Para adicionar ou remover as linhas e colunas é só clicar nas setas dentro do input ou digitar o valor no input.
+                        </p>
+                    </li>
+    
+                    <li>
+                        <h4>Menu de funções</h4>
+                        
+                           
+                        <h5>Limpar matriz</h5>
+                        <p>Apaga todos os valores da matriz</p>
+                    
+                    
+                        <h5>Copiar Valores</h5>
+                        <p>Copia os valores da matriz</p>
+                    
+                    
+                        <h5>Colar Valores</h5>
+                        <p>Cola os valores que foram copiados</p>
+                    
+                    
+                        <h5>Renomear matriz</h5>
+                        <p>Abre um pop-up com uma caixa de texto para você colocar um novo nome na matriz</p>
+                    
+                    
+                        <h5>Deletar matriz</h5>
+                        <p>Deleta a matriz</p>
+                            
+                        
+                    </li>
+                    
+                    
+                    <li>
+                        <h3>Utilizando a barra de escrita</h3>
+    
+                            <p>A barra de escrita é o input de texto que fica em cima do botão <q>Calcular</q>.</p>
+                            <p>Nessa barra você escreve as funções que deseja usar para fazer os cálculos.</p> 
+    
+                            <h4>Exemplo:</h4>
+                            <p>Desejo descobrir o determinante de uma matriz</p>
+                            <p>Antes de fazer o cálculo eu tenho que por um nome na matriz.
+                                Neste exemplo vou nomear a matriz como <q>matriz exemplo</q>
+                            </p>
+                            <p>para fazer o cálculo eu escrevo <q>det(matriz exemplo)</q> e clico em <q>Calcular</q> ou aperto <q>Enter</q></p>
+                            <p>Embaixo do botão há um espaço onde vai aparecer o resultado e se houver algum erro, ele vai aparecer abaixo da barra 
+                                em vermelho.
+                            </p>
+                            
+                            <h4>Utilizando mais de uma função nos cálculos</h4>
+                            <p>Uma das qualidades desta calculadora de matrizes é possibilidade de fazer cálculos com mais de duas matrizes e funções.</p>
+    
+                            <h4>Regras:</h4>
+                            <p>toda função tem na frente dois parênteses <q>()</q>, dentro desses parênteses vai o nome das matrizes
+                            que você deseja usar no cálculo ou um número (depende da função).</p>
+                            <p>Se por acaso você tiver que colocar mais de um elemento dentro dos 
+                                parênteses você <strong>deve</strong> colocar uma vígula para separá-los, senão o programa não entende que existem
+                                mais de dois elementos dentro dos parênteses.
+                            </p>
+                    </li>
+    
+                    <li>
+                        <h3>Deletando todas as matrizes</h3>
+                        <p>Para deletar todas as matrizes é só clicar no botão <q>Deletar todas as matrizes</q> ao lado do botão <q>Adicionar matriz</q>
+                            ou aperte <q>Alt + Shift + D</q>.</p>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+            <div class="functions">
+                <h2>Funções</h2>
+                    <ul>
+                        <li>
+                            <h3>soma</h3>
+                            <p>Faz a soma das matrizes</p>
+                            <p><q>soma(nome_da_matriz, nome_da_matriz, nome_da_matriz)</q> </p>
+                        </li>
+                        <li>
+                           <h3>sub</h3>
+                           <p>Faz a subtração das matrizes</p>
+                           <p><q>sub(nome_da_matriz, nome_da_matriz, nome_da_matriz)</q></p>
+                        </li>
+                        <li>
+                            <h3>multi</h3>
+                            <p>Faz a multiplicação das matrizes</p>
+                            <p><q>multi(nome_da_matriz, nome_da_matriz)</q></p>
+                        </li>
+                        <li>
+                            <h3>n</h3>
+                            <p>Multiplica os valores da matriz por um número</p>
+                            <p><q>n(nome_da_matriz, número)</q></p>
+                        </li>
+                        <li>
+                            <h3>det</h3>
+                            <p>Calcula o determinante da matriz</p>
+                            <p><q>det(nome_da_matriz)</q></p>
+                        </li>
+                        <li>
+                            <h3>oposta</h3>
+                            <p>Calcula a matriz oposta</p>
+                            <p><q>oposta(nome_da_matriz)</q></p>
+                        </li>
+                        <li>
+                            <h3>id</h3>
+                            <p>Gera uma matriz identidade na ordem do número dentro dos parâmetros</p>
+                            <p><q>id(número)</q></p>
+                        </li>
+                        <li>
+                            <h3>trans</h3>
+                            <p>Calcula a matriz transposta</p>
+                            <p><q>trans(nome_da_matriz)</q></p>
+                        </li>
+                        <li>
+                            <h3>adj</h3>
+                            <p>Calcula a matriz Adjunta</p>
+                            <p><q>adj(nome_da_matriz)</q></p>
+                        </li>
+                        <li>
+                            <h3>inv</h3>
+                            <p>Calcula a matriz inversa</p>
+                            <p><q>inv(nome_da_matriz)</q></p>
+                        </li>
+                        <li>
+                            <h3>colunas</h3>
+                            <p>Representa a quantidade de colunas da matriz</p>
+                            <p><q>colunas(nome_da_matriz)</q></p>
+                        </li>
+                        <li>
+                            <h3>linhas</h3>
+                            <p>Representa a quantidade de linhas da matriz</p>
+                            <p><q>linhas(nome_da_matriz)</q></p>
+                        </li>
+                    </ul>
+                <hr>
+            </div>
+            <div class="name-rules">
+                <h2>Regras para o nome das matrizes</h2>
+                <ol>
+                    <li>
+                        <p>Pode ser usado qualquer tipo de caractere no nome das matrizes, mas o nome não deve ser composto <strong>apenas</strong> por 
+                        caracteres especiais, pois o programa não considera eles.</p>
+                    </li>
+                    <li>
+                        <p>Não pode haver duas matrizes com o mesmo nome.</p>
+                    </li>
+                    <li>
+                        <p>O nome das matrizes não pode ser iguais aos nomes das funções do programa.</p>
+                    </li>
+                </ol>
+                <hr>
+            </div>
+            <div class="keyboard-shortcuts">
+                <h2>Atalhos do teclado</h2>
+                <ul>
+                    <li>
+                        <h3>Alt + Shift + A</h3>
+                        <p>Adiciona uma nova matriz</p>
+                    </li>
+                    <li>
+                        <h3>Alt + Shift + D</h3>
+                        <p>Remove todas as matrizes</p>
+                    </li>
+                    <li>
+                        <h3>Alt + Shift + L</h3>
+                        <p>Limpa a caixa de resultado</p>
+                    </li>
+                    <li>
+                        <h3>Enter</h3>
+                        <p>Faz o cálculo</p>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+            <div class="links">
+                <h2>links</h2>
+                <ul>
+                    <li>
+                        <a target="_blank" href="https://www.youtube.com/playlist?list=PLEfwqyY2ox868TPa8vjL-QPfQlmtqRGa5">
+                            Matrizes, determinantes e sistemas lineares
+                        </a>
+                        <p>(Equaciona com Paulo Pereira)</p>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.youtube.com/watch?v=KKCmjnU2y3o">
+                            Rápido e Fácil | Matrizes I Multiplicação I Produto Matriz
+                        </a>
+                        <p>(Dicasdemat Sandro Curió)</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

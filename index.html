@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calculadora de matrizes</title>
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/cross_browser.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" media="(max-width:700px)" href="./css/position-for-mobile.css">
+    <link rel="stylesheet" media="(min-width:700px)" href="./css/position-for-desktop.css">
+</head>
+
+<body>
+    <header>
+        <h1>Calculadora de matrizes</h1>
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <label> Veja o manual antes de usar a calculadora -> </label> 
+                <a href="./manual/manual.html">Manual</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+        <button title="Alt + Shift + A" class="btn_hover" id="btn_addMatriz">Adicionar matriz</button>
+        <button title="Alt + Shift + D" class="btn_hover" id="btn_delAllMatriz">Deletar todas as matrizes</button>
+        <div class="container-matriz">
+        </div>
+        <br>
+        <hr>
+        <div class="calc_tools">
+            <input type="text" placeholder="Digite as funções aqui para fazer os cálculos" spellcheck="false" id="visor"
+                list="func_list">
+
+            <datalist id="func_list"></datalist>
+
+            <div id="error_box"></div>
+            <br>
+            <button class="btn_hover" title="Enter" id="btn_calcular">Calcular</button>
+            <br>
+            <div class="res">
+                <button title="limpar" id="btn_clean">Limpar</button>
+                <br>
+                <textarea id="txtarea" readonly cols="50" rows="12"></textarea>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <hr>
+        <p>&copy; Feito por Lucas Lopes Pultz</p>
+    </footer>
+    <script src="./Js/interface.js"></script>
+    <script src="Js/create_matriz_func.js"></script>
+    <script src="./Js/treat_errors.js"></script>
+    <script src="Js/calc_functions.js"></script>
+    <script src="./Js/events.js"></script>
+
+</body>
+
+</html>
