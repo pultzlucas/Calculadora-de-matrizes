@@ -337,4 +337,3 @@ function addOptionsToDatalist(){
         datalist.appendChild(option)
     }
 }
-
