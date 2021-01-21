@@ -1,13 +1,43 @@
+import workFlow from './workFlow.js'
+import MatrizControlSize from './matrizControlSize.js'
+//import treatErrors from './treat_errors.js'
+
 document.querySelector('#btn_addMatriz').addEventListener('click', createMatrizOrNo)
 document.querySelector('#btn_delAllMatriz').addEventListener('click', delAllMatriz)
 document.querySelector('#btn_calcular').addEventListener('click', () => {
-    salvar()
+    save()
+    makeComand()
+})
+document.querySelector('#visor').addEventListener('focus', addOptionsToDatalist)
+document.querySelector('#btn_clean').addEventListener('click', cleanTextarea)
+
+/* Atalhos do teclado */
+
+window.addEventListener('keyup', event => {
+    const altShift = key => event.key === key && event.altKey && event.shiftKey
+    const is_enter = event.key === 'Enter'
+
+    if (altShift('A')) createMatrizOrNo()
+    if (altShift('D')) delAllMatriz()
+    if (altShift('L')) cleanTextarea()
+
+    if (is_enter) {
+        save()
+        makeComand()
+    }
+})
+
+document.querySelector('#btn_addMatriz').addEventListener('click', createMatrizOrNo)
+document.querySelector('#btn_delAllMatriz').addEventListener('click', delAllMatriz)
+document.querySelector('#btn_calcular').addEventListener('click', () => {
+    save()
     makeComand()
 })
 
 let matrizes_obj = {}
 let func_names = ['soma', 'sub', 'multi', 'n', 'det', 'oposta', 'id', 'trans', 'adj', 'inv', 'colunas', 'linhas']
 let matrizes_control_size = {}
+let matriz_id = 1
 
 delAllMatriz()
 
@@ -17,7 +47,7 @@ function resetObject(object) {
     }
 }
 
-function salvar() { //Atualizar todos os valores das matrizes e dos nomes
+function save() { //Atualizar todos os valores das matrizes e dos nomes
     const matriz_area = document.querySelector('.container-matriz')
 
     resetObject(matrizes_obj)
@@ -47,9 +77,8 @@ function salvar() { //Atualizar todos os valores das matrizes e dos nomes
     }
 
     for (let i = 0; i < matriz_area.childNodes.length; i++) {//Salva valores e nomes e um obj
-        matrizes_obj[clearString(names[i])] = matrizes[i]
+        matrizes_obj[workFlow.clearString(names[i])] = matrizes[i]
     }
-    //console.log(matrizes_obj)
 }
 
 function makeComand() {
@@ -59,23 +88,18 @@ function makeComand() {
     const exp = /[^(),]+/gi
 
     const comands = txt.replace(exp, index => {
-        let clean_index = clearString(index)
+        let clean_index = workFlow.clearString(index)
         let reg_exp = RegExp(clean_index, 'gi')
 
-        for (let name in matrizes_obj) {
-            if (reg_exp.test(name)) {
-                return `matrizes_obj["${clean_index}"]`
-            }
-        }
-        for (let name of func_names) {
-            if (reg_exp.test(name)) {
-                return clean_index
-            }
-        }
+        for (let name in matrizes_obj)
+            if (reg_exp.test(name)) return `matrizes_obj["${clean_index}"]`
 
-        if (!isNaN(Number(index))) {
-            return Number(index)
-        }
+        for (let name of func_names)
+            if (reg_exp.test(name)) return clean_index
+
+
+        if (!isNaN(Number(index))) return Number(index)
+
 
     })
 
@@ -84,6 +108,7 @@ function makeComand() {
 
 function scanForErrors(txt, comands) {
     if (treatErrors(txt, comands)) {
+        save()
         showRes(comands)
     }
 }
@@ -103,29 +128,6 @@ function showRes(comands) {
     txtarea.innerHTML = result_string
 }
 
-function clearString(string) {
-    const remove_spaces = string => string
-        .replace(/ /g, '').trim()
-
-    const remove_acents = string => string
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-
-    const remove_special_caracters = string => string
-        .replace(/\W+/g, '')
-
-
-    const clean_string_funcs = (string, funcs) => funcs
-        .reduce((acc, func) => func(acc), string)
-        .toLowerCase()
-
-    const clean_string = clean_string_funcs(
-        string,
-        [remove_spaces, remove_acents, remove_special_caracters]
-    )
-
-    return clean_string
-}
-
 function addMatrizName(default_name = '') {
     let name = prompt(('Nome da matriz:').toUpperCase(), default_name)
     const canceled = name === null ? false : name
@@ -136,7 +138,8 @@ function addMatrizName(default_name = '') {
 function createMatrizOrNo() {
     let name = addMatrizName(`Matriz${matriz_id}`)
     if (name) {
-        createMatriz(name)
+        matrizCreator(name)
+        save()
     }
 }
 
@@ -149,56 +152,51 @@ function delAllMatriz() {
     resetObject(matrizes_control_size)
 }
 
-let copy_values = []
+let copy_values;
+
 function selectFunctions(value, mtz) {
     const matriz_place = document.querySelector('.container-matriz')
+    const table = mtz.querySelector('table')
 
     const
         reset_selected_index = () => {
             mtz.querySelector('select').selectedIndex = 0
         },
 
-
         cleanMatriz = () => {
-            const table = mtz.querySelector('table')
-            ForeachInputTable(table, e => { e.firstChild.value = '' })
+            ForeachInputTable(table, input => input.firstChild.value = '' )
             document.querySelector('select').selectedIndex = 0
         },
 
         copyMatriz = () => {
-            const table = mtz.querySelector('table')
-            let values = []
-            copy_values = []
-
-            ForeachInputTable(table, e => { values.push(Number(e.firstChild.value)) })
-
             const cols = table.childNodes[0].childNodes.length
             const rows = table.childNodes.length
-            for (let i = 0; i < rows; i++) {
-                copy_values.push(values.slice(0, cols))
+            let values = []
+            
+            ForeachInputTable(table, e => { values.push(Number(e.firstChild.value)) })
+
+            const copyValues = () => {
+                let copyValue = values.slice(0, cols)
                 values.splice(0, cols)
+                return copyValue
             }
+
+            copy_values = workFlow.createEmptyArray(rows).map(copyValues)
+
             reset_selected_index()
         },
 
         pasteMatriz = () => {
-            const table = mtz.querySelector('table')
-
-            if (copy_values.length > 0) {
-                ForeachInputTable(table, (e, l, c) => {
-                    e.firstChild.value = copy_values[l][c]
-                })
-            }
+            if (copy_values.length > 0) 
+                ForeachInputTable(table, (e, l, c) => e.firstChild.value = copy_values[l][c])
+            
             reset_selected_index()
         },
 
         renameMatriz = () => {
             const name_matriz = mtz.querySelector('div.mtx-header').querySelector('label')
             const new_name = addMatrizName(name_matriz.innerHTML)
-            const table = mtz.querySelector('table')
-            if (new_name) {
-                name_matriz.innerHTML = new_name
-            }
+            if (new_name) name_matriz.innerHTML = new_name
 
             reset_selected_index()
         },
@@ -217,18 +215,15 @@ function selectFunctions(value, mtz) {
     ]
     const call_func = what_func_call.find(e => e[0])[1]
 
-    if (call_func) {
-        call_func()
-    }
+    if (call_func) call_func()
 }
 
 function ForeachInputTable(table_element, func) {
     const table = table_element
-    for (let l = 0; l < table.childNodes.length; l++) {
-        for (let c = 0; c < table.childNodes[l].childNodes.length; c++) {
+
+    for (let l = 0; l < table.childNodes.length; l++) 
+        for (let c = 0; c < table.childNodes[l].childNodes.length; c++) 
             func(table.childNodes[l].childNodes[c], l, c)
-        }
-    }
 }
 
 function showMatriz(mtz) {
@@ -246,94 +241,255 @@ function showMatriz(mtz) {
 
 }
 
-function cleanChildNodes(array_like) {
-    let array = Array.from(array_like)
-    return array.filter(e => e.nodeType != 3)
-}
-
-function cleanTextarea(){
+function cleanTextarea() {
     const textarea = document.querySelector('#txtarea')
     textarea.innerHTML = ''
 }
 
-function MatrizControlSize(table) {
-    this.last_row_value = 0
-    this.last_col_value = 0
-    this.table = table
-}
+function addOptionsToDatalist() {
+    let funcs = [
+        'soma()', 'sub()', 'multi()', 'n()',
+        'det()', 'oposta()', 'id()', 'trans()',
+        'adj()', 'inv()', 'colunas()', 'linhas()'
+    ]
 
-
-MatrizControlSize.prototype.controlRow = function(row_value) {
-    const table_childs = cleanChildNodes(this.table.childNodes)
-    const childs_of_tr = cleanChildNodes(table_childs[0].childNodes)
-
-    const add_row = (amount) => { //AUMENTA LINHAS
-        for (let row = 0; row < amount; row++) {
-            let tr = createElement('tr')
-
-            for (let col in childs_of_tr) {
-                let td = createElement('td', null, tr)
-                createElement('input', {
-                    type: 'number'
-                }, td)
-            }
-            this.table.appendChild(tr)
-        }
-    }
-
-    const remove_row = (amount) => { //DIMINUI LINHAS
-        for (let row = 0; row < amount; row++) {
-            this.table.lastChild.remove()
-        }
-    }
-
-    const amount_add = row_value - this.last_row_value
-    const amount_remove = this.last_row_value - row_value
-
-    row_value > this.last_row_value ? add_row(amount_add) : remove_row(amount_remove)
-
-
-    this.last_row_value = row_value
-}
-
-MatrizControlSize.prototype.controlCol = function(col_value) {
-    const table_childs = cleanChildNodes(this.table.childNodes)
-
-    const add_col = (amount) => { //AUMENTA COLUNAS
-        for (let col = 0; col < amount; col++) {
-            for (let row of table_childs) {
-                let td = createElement('td', null, row)
-                createElement('input', {
-                    type: 'number'
-                }, td)
-            }
-        }
-    }
-
-    const remove_col = (amount) => { //DIMINUI COLUNAS
-        for (let col = 0; col < amount; col++) {
-            for (let row of table_childs) {
-                row.lastChild.remove()
-            }
-        }
-    }
-
-    const amount_add = col_value - this.last_col_value
-    const amount_remove = this.last_col_value - col_value
-
-    col_value > this.last_col_value ? add_col(amount_add) : remove_col(amount_remove)
-
-    this.last_col_value = col_value
-}
-
-function addOptionsToDatalist(){
-    let funcs = ['soma()', 'sub()', 'multi()', 'n()', 'det()', 'oposta()', 'id()', 'trans()', 'adj()', 'inv()', 'colunas()', 'linhas()']
     const datalist = document.querySelector('#func_list')
-    
+
     datalist.innerHTML = ''
-    for(let name of funcs){
+    for (let name of funcs) {
         const option = document.createElement('option')
         option.value = name
         datalist.appendChild(option)
     }
+}
+
+
+/* MATRIZ CREATOR */
+
+function matrizCreator(name) {
+    const { createElement } = workFlow
+
+    const matriz_place = document.querySelector('.container-matriz')
+
+    const div_tabela = createElement('div',
+        { id: `mtx${matriz_id}`, class: 'tabela' }, matriz_place
+    )
+
+    /* DIV HEADER*/
+    const
+        div_header = createElement('div', { class: 'mtx-header' }, div_tabela),
+
+        label_header = createElement('label', { id: 'matriz_name' }, div_header),
+
+        input_row = createElement('input', {
+            type: 'number',
+            min: '1',
+            max: '10',
+            id: 'mtx_header_linhas',
+        }, div_header),
+
+
+        x = createElement('span', null, div_header),
+
+        input_col = createElement('input', {
+            type: 'number',
+            min: '1',
+            max: '10',
+            id: 'mtx_header_colunas',
+        }, div_header),
+        config_menu = createElement('select', null, div_header)
+
+    config_menu.addEventListener('change', (event) => {
+        const menu = event.target
+        const matriz = menu.parentNode.parentNode
+        selectFunctions(menu.value, matriz)
+    })
+
+    input_row.addEventListener('change', (event) => {
+        const input = event.target
+        const matriz = input.parentNode.parentNode
+
+        const control_matriz_object = matrizes_control_size[matriz.id]
+
+        if (input.value > 0) {
+            control_matriz_object.controlRow(input.value - 1)
+            refreshError()
+        } else {
+            showError('Coloque um número maior que 1 para acrescentar uma linha')
+        }
+    })
+    input_col.addEventListener('change', (event) => {
+        const input = event.target
+        const matriz = input.parentNode.parentNode
+
+        const control_matriz_object = matrizes_control_size[matriz.id]
+
+        if (input.value > 0) {
+            control_matriz_object.controlCol(input.value - 1)
+            refreshError()
+        } else {
+            showError('Coloque um número maior que 1 para acrescentar uma coluna')
+        }
+    })
+
+    input_row.value = 1
+    input_col.value = 1
+    x.innerHTML = ' x '
+    label_header.innerHTML = name
+
+
+    /* BUTTON MATRIZ SHOW*/
+    const
+        div_btn_matriz_show = createElement('div', { class: 'btn-matriz-show' }, div_tabela),
+
+        botao_matriz_show = createElement('button', null, div_btn_matriz_show),
+
+        btn_img = createElement('img', {
+            src: './img/arrdown.png',
+            alt: 'arrow_down'
+        }, botao_matriz_show)
+
+    botao_matriz_show.addEventListener('click', event => {
+        const botao = event.target
+        const matriz = botao.parentNode.parentNode
+        showMatriz(matriz)
+        event.stopPropagation()
+    })
+
+    /* TABLE */
+    const
+        table = createElement('table', null, div_tabela),
+        tr = createElement('tr', null, table),
+        td = createElement('td', null, tr),
+        input_matriz = createElement('input', { type: 'number' }, td)
+
+    /* OPTIONS SELECT */
+    const
+        option_vazio = createElement('option', null, config_menu),
+        limparM_option = createElement('option', null, config_menu),
+        copiarM_option = createElement('option', null, config_menu),
+        colarM_option = createElement('option', null, config_menu),
+        renomearM_option = createElement('option', null, config_menu),
+        deletarM_option = createElement('option', null, config_menu)
+
+    limparM_option.innerHTML = 'Limpar matriz'
+    copiarM_option.innerHTML = 'Copiar valores'
+    colarM_option.innerHTML = 'Colar valores'
+    renomearM_option.innerHTML = 'Renomear matriz'
+    deletarM_option.innerHTML = 'Deletar matriz'
+
+    matrizes_control_size[div_tabela.id] = new MatrizControlSize(table)
+    matriz_id++
+}
+
+/* TREAT ERRORS */
+
+function thereFuncInComand(array) {
+    return array.map(e => func_names.includes(e)).some(e => e)
+}
+
+function removeFuncs(array) {
+    return array.filter(e => !func_names.includes(e))
+}
+
+function thereMtzInComand(array) {
+    let name_array = removeFuncs(array)
+
+    let validate_names = name_array.map(e => {
+        for (let name in matrizes_obj)
+            if (e === name || typeof Number(e) === 'number') return true
+
+        return false
+    })
+
+    return validate_names.every(name => name)
+}
+
+function mtzIsDefined(array) {
+    const names_of_matrizes = removeFuncs(array)
+    const matrizes_keys = Object.keys(matrizes_obj)
+    const is_number = string => !isNaN(Number(string))
+
+    const is_or_no = names_of_matrizes
+        .map(name => {
+            return matrizes_keys.includes(name) || is_number(name)
+        })
+
+    const boolean = is_or_no.includes(false)
+    const undefined_element = names_of_matrizes[is_or_no.findIndex(e => !e)]
+
+    return {
+        boolean,
+        undefined_element
+    }
+}
+
+function resIsNaN(res) {
+    const is_matriz = typeof res === 'object'
+    const is_NaN_array = []
+    const is_valid = element => isNaN(element) || element == Infinity
+    if (is_matriz) {
+        forEachMatriz(res, (element) => {
+            is_NaN_array.push(is_valid(element))
+        })
+
+        return is_NaN_array.includes(true)
+    }
+    return isNaN(res)
+}
+
+function existAnElement(array) {
+    const comand_without_funcs = removeFuncs(array)
+    const is_empty = comand_without_funcs.length === 0
+    return is_empty
+}
+
+function transformRawComandInArray(raw_comand) {
+    const exp = /[(),]/gi
+    const remove_comand_trash = raw_comand
+        .replace(/ /g, '')
+        .replace(exp, ' ')
+        .trim()
+
+    const split_comand = remove_comand_trash.split(' ')
+
+    return split_comand.map(e => workFlow.clearString(e))
+    //Ex: before: soma(a,b) after: ["soma","a","b"]
+}
+
+function treatErrors(raw_comand, edit_comand) {
+    const arr_block_comands = transformRawComandInArray(raw_comand)
+    const if_there_func_in_comand = thereFuncInComand(arr_block_comands)
+    const if_exist_mtz = Object.keys(matrizes_obj).length === 0
+    const if_there_mtz_in_comand = thereMtzInComand(arr_block_comands)
+    const mtz_is_defined = mtzIsDefined(arr_block_comands)
+    const exist_an_element = existAnElement(arr_block_comands)
+
+    try {
+        if (if_exist_mtz) throw new Error('Adicione uma matriz para fazer algum cálculo')
+        if (exist_an_element) throw new Error('Está faltando um elemento dentro de algum parênteses')
+        if (!if_there_mtz_in_comand) throw new Error('O nome de alguma matriz está incorreto ou a matriz não existe')
+        if (!if_there_func_in_comand) throw new Error('Insira uma função para efetuar algum cálculo')
+        if (mtz_is_defined.boolean) throw new Error(`A matriz ${mtz_is_defined.undefined_element} não existe`)
+        if (resIsNaN(eval(edit_comand))) throw new Error('Não é possível fazer o cálculo! Verifique se as matrizes estão corretas')
+
+        refreshError()
+        return true
+
+    } catch (error) {
+        showError(error.message)
+        return false
+    }
+}
+
+function refreshError() {
+    const err_box = document.querySelector('#error_box')
+    document.querySelector('#visor').style.border = ''
+    err_box.innerHTML = ''
+}
+
+function showError(error) {
+    const err_box = document.querySelector('#error_box')
+    err_box.innerHTML = error
+    document.querySelector('#visor').style.border = 'solid 2px red'
 }
