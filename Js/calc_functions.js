@@ -1,13 +1,13 @@
-/* let matriz1 = [
-    [1, 1],
-    [1, 1]
+
+const matriz1 = [
+    [1, 2],
+    [1, 2]
 ]
 
-let matriz2 = [
-    [1, 1],
-    [1, 1]
-] */
-
+const matriz2 = [
+    [2, 2],
+    [2, 2]
+]
 /* 
 =============================================================================================
     Funções para descobrir as linhas e colunas
@@ -17,8 +17,8 @@ function linhas(mtx) {
     return mtx.length
 }
 
-function colunas(mtx) {
-    return mtx[0].length
+function colunas([firstRow]) {
+    return firstRow.length
 }
 
 
@@ -60,28 +60,6 @@ function forEachMatriz(mtx, func, colOrRow = 'row') {
 function cof(linhas, colunas, submatriz) {
     return (-1) ** (linhas + colunas) * det(submatriz)
 }
-/* 
-============================================================================================
-    Validações
-============================================================================================
-*/
-
-/* function matrizIsSquare(matriz) {
-    return colunas(matriz) === linhas(matriz)
-}
-
-function allMatrizIsEquals(matrizes) {
-    const is_array = typeof matrizes === 'object'
-    if (is_array) {
-        const validate = matrizes.every(e =>
-            linhas(e) === linhas(matrizes[0]) &&
-            colunas(e) === colunas(matrizes[0])
-        )
-
-        return validate
-    }
-    return true
-} */
 
 /* 
 ==============================================================================================
@@ -91,9 +69,8 @@ function allMatrizIsEquals(matrizes) {
 
 
 function soma(...matrizes) {
-
-    let array_soma = []
     const elements_to_som = matrizes.map(e => e.flat())
+    let array_soma = []
 
     for (let c = 0; c < colunas(elements_to_som); c++) {
         let soma = 0
@@ -103,15 +80,14 @@ function soma(...matrizes) {
         array_soma.push(soma)
     }
 
-    const mtx = array_toMatriz(array_soma, linhas(matrizes[0]), colunas(matrizes[0]))
-    return mtx
+    return array_toMatriz(array_soma, linhas(matrizes[0]), colunas(matrizes[0]))
 }
 
 
 function sub(...matrizes) {
+    let elements_to_sub = matrizes.map(e => e.flat())
     let array_sub = []
-    let elements_to_sub = matrizes.map(e=>e.flat())
-    
+
     for (let c = 0; c < colunas(elements_to_sub); c++) {
         let sub = elements_to_sub[0][c]
         for (let l = 0; l < linhas(elements_to_sub) - 1; l++) {
@@ -119,10 +95,10 @@ function sub(...matrizes) {
         }
         array_sub.push(sub)
     }
-    
-    const mtx = array_toMatriz(array_sub, linhas(matrizes[0]), colunas(matrizes[0]))
-    return mtx
+
+    return array_toMatriz(array_sub, linhas(matrizes[0]), colunas(matrizes[0]))
 }
+
 function multi(mtx1, mtx2) {
     let array_block = []
     let array_multi = []
@@ -134,10 +110,7 @@ function multi(mtx1, mtx2) {
                 array_block.push(mtx1[l][ab] * mtx2[ab][c])
             }
 
-            array_multi.push(array_block.reduce((acc,value)=>{
-                acc += value
-                return acc
-            },0))
+            array_multi.push(array_block.reduce((acc, value) => acc + value, 0))
 
             array_block.splice(0, colunas(mtx1))
         }
@@ -149,13 +122,13 @@ function multi(mtx1, mtx2) {
 function n(mtx, n = 1) {
     const array_n_multi = []
 
-    forEachMatriz(mtx, (_, l, c) => {
+    forEachMatriz(mtx, (_, l, c) =>
         array_n_multi.push(Number(parseFloat(n * mtx[l][c]).toFixed(3)))
-    })
+    )
 
-    const n_mtx = array_toMatriz(array_n_multi, linhas(mtx), colunas(mtx))
-    return n_mtx
+    return array_toMatriz(array_n_multi, linhas(mtx), colunas(mtx))
 }
+
 /* 
 ===================================================================================
     Matriz Oposta
@@ -174,9 +147,8 @@ function oposta(mtx) {
 
 function id(n) {
     let ordem = n
-    if (typeof n === "object") {
-        ordem = colunas(n)
-    }
+    if (typeof n === "object") ordem = colunas(n)
+
     let array_id = []
 
     for (let i1 = 0; i1 < ordem; i1++) {
@@ -188,6 +160,7 @@ function id(n) {
     return array_toMatriz(array_id, ordem, ordem)
 }
 
+
 /* 
 ===================================================================================
     Matriz Transposta 
@@ -195,10 +168,8 @@ function id(n) {
 */
 function trans(mtx) {
     let array_trans = []
+    forEachMatriz(mtx, (_, l, c) => array_trans.push(mtx[l][c]), 'col')
 
-    forEachMatriz(mtx, (_, l, c) => {
-        array_trans.push(mtx[l][c])
-    }, 'col')
     return array_toMatriz(array_trans, colunas(mtx), linhas(mtx))
 }
 
@@ -211,6 +182,7 @@ function trans(mtx) {
 function adj(mtx) {
     const submtx = []
     const cofatores = []
+
     let index = () => { //função para armazenar os indices
         let idx = []
         for (let n = 0; n < linhas(mtx) * colunas(mtx); n++) {
@@ -218,8 +190,8 @@ function adj(mtx) {
             for (let c = 0; c < colunas(mtx); c++) {
                 idx[n].push(c)
             }
-
         }
+
         return idx
     }
 
@@ -237,9 +209,7 @@ function adj(mtx) {
 
     let index_rows = () => {
         const ir = index()
-        forEachMatriz(mtx, (_, l, c, n) => {
-            ir[n].splice(l, 1)
-        })
+        forEachMatriz(mtx, (_, l, c, n) => ir[n].splice(l, 1))
         return ir
     }
 
@@ -250,23 +220,23 @@ function adj(mtx) {
             for (let c = 0; c < colunas(mtx) - 1; c++) {
                 submtx[n][l].push(mtx
                 [index_rows()[n][l]]
-                [index_cols()[n][c]]
-                )
+                [index_cols()[n][c]])
             }
         }
     }
-    forEachMatriz(mtx, (_, l, c, n) => {
-        cofatores.push(cof(l + 1, c + 1, submtx[n]))
-    })
+
+    forEachMatriz(mtx, (_, l, c, n) => cofatores.push(cof(l + 1, c + 1, submtx[n])))
 
     mtx_cofatores = array_toMatriz(cofatores, linhas(mtx), colunas(mtx))
 
     return trans(mtx_cofatores)
 }
 
+
+
 /* 
 ===================================================================================
-    Matriz Inversa 
+Matriz Inversa 
 ======================================================================================
 */
 
@@ -279,14 +249,12 @@ function inv(mtx) {
 
 /* 
 ===================================================================================
-    Determinantes 
+Determinantes 
 ======================================================================================
 */
 
 function det(mtx) {
-    if (linhas(mtx) === 1 && colunas(mtx) === 1) {
-        return mtx[0][0]
-    }
+    if (linhas(mtx) === 1 && colunas(mtx) === 1) return mtx[0][0]
 
     const selected_row = mtx.shift()
     const det_cof = [] //armazena as matrizes menores
@@ -315,11 +283,10 @@ function det(mtx) {
         cofatores.push(selected_row[i] * cof(1, i + 1, det_cof[i]))
     }
 
-    const determinante = cofatores.reduce((acc,cofator)=>{
-        acc += cofator
-        return acc
-    },0)
+    const determinante = cofatores.reduce((acc, cofator) => acc += cofator, 0)
 
     return determinante
 
 }
+
+console.log(det(matriz1))
